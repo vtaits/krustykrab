@@ -1,0 +1,35 @@
+{
+  "name": "krustykrab",
+  "packageManager": "yarn@4.0.2",
+  "devDependencies": {
+    "@biomejs/biome": "^1.5.1",
+    "@vitest/coverage-v8": "^1.2.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --sourcemap --format esm,cjs --dts --legacy-output",
+    "lint": "biome check src",
+    "lint:fix": "biome check src --apply-unsafe",
+    "format": "biome format src --write",
+    "test:ts": "tsc --noEmit",
+    "test:unit": "vitest run --coverage.enabled --coverage.all --coverage.include=src",
+    "test:unit:watch": "vitest",
+    "test": "yarn lint && yarn test:ts && yarn test:unit",
+    "prepare": "yarn build"
+  }
+}
