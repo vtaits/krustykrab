@@ -3,11 +3,13 @@ import { getResult } from "./get_result";
 import * as lib from "./index";
 import { None, Some } from "./option";
 import { Err, Ok } from "./result";
+import { toOption } from "./to_option";
 import { unwrap } from "./unwrap";
 import { unwrapOr } from "./unwrap_or";
 import { unwrapOrElse } from "./unwrap_or_else";
 
 test("correct exports", () => {
+	expect(lib.toOption).toBe(toOption);
 	expect(lib.getResult).toBe(getResult);
 	expect(lib.unwrap).toBe(unwrap);
 	expect(lib.unwrapOr).toBe(unwrapOr);

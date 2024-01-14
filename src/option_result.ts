@@ -1,3 +1,8 @@
+/**
+ * An implementation of `Result` from Rust stdlib
+ *
+ * https://doc.rust-lang.org/std/result/enum.Result.html
+ */
 export type Result<R, E> = Readonly<{
 	isOk: () => boolean;
 	isOkAnd: (fn: (arg: R) => boolean) => boolean;
@@ -83,6 +88,11 @@ export function Err<R, E>(err: E): Result<R, E> {
 	return self;
 }
 
+/**
+ * An implementation of `Option` from Rust stdlib
+ *
+ * https://doc.rust-lang.org/std/option/enum.Option.html
+ */
 export type Option<T> = Readonly<{
 	and: <R>(opt: Option<R>) => Option<R>;
 	andThen: <R>(fn: (arg: T) => Option<R>) => Option<R>;

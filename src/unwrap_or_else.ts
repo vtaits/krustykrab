@@ -1,10 +1,22 @@
+/**
+ * Returns the value if it's not `null` or `undefined`, or computes it
+ * @param value Target value
+ * @returns Unchanged value if it's not `null` or `undefined` or the computed value
+ *
+ * ```ts
+ * const foo: Partial<Record<string, string>> = { bar: 'baz' };
+ *
+ * unwrapOrElse(foo.bar, () => 'qux'); // returns 'baz'
+ * unwrapOrElse(foo.bat, () => 'qux'); // returns 'qux'
+ * ```
+ */
 export function unwrapOrElse<T>(
-	arg: T | null | undefined,
+	value: T | null | undefined,
 	getDefaultValue: () => T,
 ): T {
-	if (arg === null || arg === undefined) {
+	if (value === null || value === undefined) {
 		return getDefaultValue();
 	}
 
-	return arg;
+	return value;
 }

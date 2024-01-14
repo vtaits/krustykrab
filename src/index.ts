@@ -1,3 +1,4 @@
+export * from "./to_option";
 export * from "./get_result";
 export * from "./unwrap";
 export * from "./unwrap_or";
