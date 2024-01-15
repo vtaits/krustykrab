@@ -230,26 +230,144 @@ export function Err<R, E>(err: E): Result<R, E> {
  * https://doc.rust-lang.org/std/option/enum.Option.html
  */
 export type Option<T> = Readonly<{
+	/**
+	 * ```ts
+	 * Some('foo').and(otherOption); // returns `otherOption`
+	 * None().and(otherOption); // returns `None()`
+	 * ```
+	 */
 	and: <R>(opt: Option<R>) => Option<R>;
+	/**
+	 * ```ts
+	 * Some(1).andThen((value) => Some(value * 2)); // returns `Some(2)`
+	 * None().andThen((value) => Some(value * 2)); // returns `None()`
+	 * ```
+	 */
 	andThen: <R>(fn: (arg: T) => Option<R>) => Option<R>;
+	/**
+	 * ```ts
+	 * Some('foo').expect('error message'); // returns `'foo'`
+	 * None().expect('error message'); // throws `new Error('error message')`
+	 * ```
+	 */
 	expect: (msg: string) => T;
+	/**
+	 * ```ts
+	 * Some(123).filter((value) => value > 100); // returns `Some(123)`
+	 * Some(12).filter((value) => value > 100); // returns `None()`
+	 * None().filter((value) => value > 100); // returns `None()`
+	 * ```
+	 */
 	filter: (fn: (arg: T) => boolean) => Option<T>;
+	/**
+	 * ```ts
+	 * Some('foo').isSome(); // returns `true`
+	 * None().isSome(); // returns `false`
+	 * ```
+	 */
 	isSome: () => boolean;
+	/**
+	 * ```ts
+	 * Some(123).isSomeAnd((value) => value > 100); // returns `true`
+	 * Some(12).isSomeAnd((value) => value > 100); // returns `false`
+	 * None().isSomeAnd((value) => value > 100); // returns `false`
+	 * ```
+	 */
 	isSomeAnd: (fn: (arg: T) => boolean) => boolean;
+	/**
+	 * ```ts
+	 * Some('foo').isNone(); // returns `false`
+	 * None().isNone(); // returns `true`
+	 * ```
+	 */
 	isNone: () => boolean;
+	/**
+	 * ```ts
+	 * Some(1).map((value) => Some(value * 2)); // returns `Some(2)`
+	 * None().map((value) => Some(value * 2)); // returns `None()`
+	 * ```
+	 */
 	map: <R>(fn: (arg: T) => R) => Option<R>;
+	/**
+	 * ```ts
+	 * Some(1).mapOr(10, (value) => Some(value * 2)); // returns `2`
+	 * None().mapOr(10, (value) => Some(value * 2)); // returns `10`
+	 * ```
+	 */
 	mapOr: <R>(defaultValue: R, fn: (arg: T) => R) => R;
+	/**
+	 * ```ts
+	 * Some(1).mapOrElse(() => 10, (value) => Some(value * 2)); // returns `2`
+	 * None().mapOrElse(() => 10, (value) => Some(value * 2)); // returns `10`
+	 * ```
+	 */
 	mapOrElse: <R>(getDefaultValue: () => R, fn: (arg: T) => R) => R;
+	/**
+	 * ```ts
+	 * Some('foo').okOr('err'); // returns `Ok('foo')`
+	 * None().okOr('err'); // returns `Err('err')`
+	 * ```
+	 */
 	okOr: <E>(err: E) => Result<T, E>;
+	/**
+	 * ```ts
+	 * Some('foo').okOrElse(() => 'err'); // returns `Ok('foo')`
+	 * None().okOrElse(() => 'err'); // returns `Err('err')`
+	 * ```
+	 */
 	okOrElse: <E>(getErr: () => E) => Result<T, E>;
+	/**
+	 * ```ts
+	 * Some('foo').or(otherOption); // returns `Some('foo')`
+	 * None().or(otherOption); // returns `otherOption`
+	 * ```
+	 */
 	or: (opt: Option<T>) => Option<T>;
+	/**
+	 * ```ts
+	 * Some('foo').or(() => Some('bar')); // returns `Some('foo')`
+	 * None().or(() => Some('bar')); // returns `Some('bar')`
+	 * None().or(() => None()); // returns `None()`
+	 * ```
+	 */
 	orElse: (fn: () => Option<T>) => Option<T>;
+	/**
+	 * ```ts
+	 * Some('foo').unwrap(); // returns `'foo'`
+	 * None().unwrap(); // throws
+	 * ```
+	 */
 	unwrap: () => T;
+	/**
+	 * ```ts
+	 * Some('foo').unwrapOr('bar'); // returns `'foo'`
+	 * None().unwrapOr('bar'); // returns `'bar'`
+	 * ```
+	 */
 	unwrapOr: (defaultValue: T) => T;
+	/**
+	 * ```ts
+	 * Some('foo').unwrapOrElse(() => 'bar'); // returns `'foo'`
+	 * None().unwrapOrElse(() => 'bar'); // returns `'bar'`
+	 * ```
+	 */
 	unwrapOrElse: (getDefaultValue: () => T) => T;
+	/**
+	 * ```ts
+	 * Some('foo').xor(Some('bar')); // returns `None()`
+	 * Some('foo').xor(None()); // returns `Some('foo')`
+	 * None().xor(Some('bar')); // returns `Some('bar')`
+	 * None().xor(None()); // returns `None()`
+	 * ```
+	 */
 	xor: (opt: Option<T>) => Option<T>;
 }>;
 
+/**
+ * https://doc.rust-lang.org/std/option/enum.Option.html#variant.None
+ *
+ * @returns Empty option
+ */
 export function None<T>(): Option<T> {
 	const self: Option<T> = {
 		and: () => None(),
@@ -285,6 +403,12 @@ export function None<T>(): Option<T> {
 	return self;
 }
 
+/**
+ * @param value Some value
+ * @returns Filled option
+ *
+ * https://doc.rust-lang.org/std/option/enum.Option.html#variant.Some
+ */
 export function Some<T>(value: T): Option<T> {
 	const self: Option<T> = {
 		and: (opt) => opt,

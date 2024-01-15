@@ -1,5 +1,17 @@
 {
   "name": "krustykrab",
+  "version": "1.0.0",
+  "description": "Rust utils for JavaScript projects",
+  "repository": "git@github.com:vtaits/krustykrab.git",
+  "author": "Vadim Taits <taizvadim@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "rust",
+    "std",
+    "stdlib",
+    "utils",
+    "helpers"
+  ],
   "packageManager": "yarn@4.0.2",
   "devDependencies": {
     "@biomejs/biome": "^1.5.1",
