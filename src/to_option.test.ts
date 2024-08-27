@@ -2,14 +2,21 @@ import { describe, expect, test } from "vitest";
 import { toOption } from "./to_option";
 
 describe("Some", () => {
-	test.each([[0], [1], [NaN], [true], [false], [{}], [[]], [""], ["foo"]])(
-		"%s",
-		(arg) => {
-			const option = toOption(arg);
+	test.each([
+		[0],
+		[1],
+		[Number.NaN],
+		[true],
+		[false],
+		[{}],
+		[[]],
+		[""],
+		["foo"],
+	])("%s", (arg) => {
+		const option = toOption(arg);
 
-			expect(option.unwrap()).toBe(arg);
-		},
-	);
+		expect(option.unwrap()).toBe(arg);
+	});
 });
 
 describe("None", () => {

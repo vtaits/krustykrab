@@ -5,7 +5,7 @@ describe("return target value", () => {
 	test.each([
 		[0, 100],
 		[1, 100],
-		[NaN, 1234],
+		[Number.NaN, 1234],
 		[true, false],
 		[false, false],
 		[{}, { foo: "baz" }],
