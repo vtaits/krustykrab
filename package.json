@@ -27,17 +27,18 @@
     "dist"
   ],
   "main": "./dist/index.js",
-  "module": "./dist/esm/index.js",
+  "module": "./dist/index.mjs",
+  "types": "dist/index.d.mts",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
     }
   },
-  "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --sourcemap --format esm,cjs --dts --legacy-output",
+    "build": "tsup src/index.ts --sourcemap --format esm,cjs --dts",
     "upload:docs": "gh-pages -d docs",
     "build:docs": "typedoc src/index.ts",
     "deploy:docs": "yarn build:docs && yarn upload:docs",
