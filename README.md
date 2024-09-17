@@ -103,3 +103,17 @@ option.unwrap(); // returns `'foo'`;
 toOption(null).isNone(); // returns `true`
 toOption(undefined).isNone(); // returns `true`
 ```
+
+### tryCatch
+
+Wrap the result of a function call with `Result`
+
+```ts
+import { tryCatch } from "krustykrab";
+
+const successResult = tryCatch(() => JSON.parse('{"foo": "bar"}'));
+successResult.unwrap(); // returns `{ foo: "bar" }`
+
+const errorResult = tryCatch(() => JSON.parse("{invalid json}"));
+errorResult.isErr(); // returns `true`
+```

@@ -5,3 +5,4 @@ export * from "./unwrap_or";
 export * from "./unwrap_or_else";
 export * from "./option";
 export * from "./result";
+export * from "./try_catch";
