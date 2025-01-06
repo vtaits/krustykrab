@@ -13,7 +13,6 @@
     "utils",
     "helpers"
   ],
-  "packageManager": "yarn@4.5.0",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/gh-pages": "^6.1.0",
