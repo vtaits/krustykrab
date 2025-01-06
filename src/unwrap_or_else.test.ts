@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test } from "bun:test";
 import { unwrapOrElse } from "./unwrap_or_else";
 
 describe("return target value", () => {

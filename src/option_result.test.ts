@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, mock, test } from "bun:test";
 import { Err, None, Ok, Some } from "./option_result";
 
 describe("Option", () => {
@@ -14,8 +14,8 @@ describe("Option", () => {
 		});
 
 		test("andThen", () => {
-			const fn = vi.fn().mockReturnValue(otherOption);
-			expect(option.andThen(fn)).toBe(otherOption);
+			const fn = mock().mockReturnValue(otherOption);
+			expect(option.andThen(fn) as unknown).toBe(otherOption);
 
 			expect(fn).toHaveBeenCalledTimes(1);
 			expect(fn).toHaveBeenCalledWith(value);
@@ -27,7 +27,7 @@ describe("Option", () => {
 
 		describe("filter", () => {
 			test("match", () => {
-				const fn = vi.fn().mockReturnValue(true);
+				const fn = mock().mockReturnValue(true);
 				expect(option.filter(fn)).toBe(option);
 
 				expect(fn).toHaveBeenCalledTimes(1);
@@ -35,7 +35,7 @@ describe("Option", () => {
 			});
 
 			test("no match", () => {
-				const fn = vi.fn().mockReturnValue(false);
+				const fn = mock().mockReturnValue(false);
 				expect(option.filter(fn).isNone()).toBe(true);
 
 				expect(fn).toHaveBeenCalledTimes(1);
@@ -48,7 +48,7 @@ describe("Option", () => {
 		});
 
 		test.each([[true], [false]])("isSomeAnd = %s", (fnReturn) => {
-			const fn = vi.fn().mockReturnValue(fnReturn);
+			const fn = mock().mockReturnValue(fnReturn);
 
 			expect(option.isSomeAnd(fn)).toBe(fnReturn);
 
@@ -61,7 +61,7 @@ describe("Option", () => {
 		});
 
 		test("map", () => {
-			const fn = vi.fn().mockReturnValue("test");
+			const fn = mock().mockReturnValue("test");
 
 			expect(option.map(fn).unwrap()).toBe("test");
 
@@ -70,7 +70,7 @@ describe("Option", () => {
 		});
 
 		test("mapOr", () => {
-			const fn = vi.fn().mockReturnValue("test");
+			const fn = mock().mockReturnValue("test");
 
 			expect(option.mapOr("foo", fn)).toBe("test");
 
@@ -79,7 +79,7 @@ describe("Option", () => {
 		});
 
 		test("mapOrElse", () => {
-			const fn = vi.fn().mockReturnValue("test");
+			const fn = mock().mockReturnValue("test");
 
 			expect(option.mapOrElse(() => "foo", fn)).toBe("test");
 
@@ -143,7 +143,7 @@ describe("Option", () => {
 		});
 
 		test("andThen", () => {
-			const fn = vi.fn().mockReturnValue(otherOption);
+			const fn = mock().mockReturnValue(otherOption);
 			expect(option.andThen(fn).isNone()).toBe(true);
 			expect(fn).toHaveBeenCalledTimes(0);
 		});
@@ -155,7 +155,7 @@ describe("Option", () => {
 		});
 
 		test.each([[true], [false]])("filter= %s", (fnReturn) => {
-			const fn = vi.fn().mockReturnValue(fnReturn);
+			const fn = mock().mockReturnValue(fnReturn);
 			expect(option.filter(fn)).toBe(option);
 			expect(fn).toHaveBeenCalledTimes(0);
 		});
@@ -165,7 +165,7 @@ describe("Option", () => {
 		});
 
 		test.each([[true], [false]])("isSomeAnd = %s", (fnReturn) => {
-			const fn = vi.fn().mockReturnValue(fnReturn);
+			const fn = mock().mockReturnValue(fnReturn);
 			expect(option.isSomeAnd(fn)).toBe(false);
 			expect(fn).toHaveBeenCalledTimes(0);
 		});
@@ -175,20 +175,20 @@ describe("Option", () => {
 		});
 
 		test("map", () => {
-			const fn = vi.fn().mockReturnValue("test");
+			const fn = mock().mockReturnValue("test");
 			expect(option.map(fn).isNone()).toBe(true);
 			expect(fn).toHaveBeenCalledTimes(0);
 		});
 
 		test("mapOr", () => {
-			const fn = vi.fn().mockReturnValue("test");
+			const fn = mock().mockReturnValue("test");
 
 			expect(option.mapOr("foo", fn)).toBe("foo");
 			expect(fn).toHaveBeenCalledTimes(0);
 		});
 
 		test("mapOrElse", () => {
-			const fn = vi.fn().mockReturnValue("test");
+			const fn = mock().mockReturnValue("test");
 
 			expect(option.mapOrElse(() => "foo", fn)).toBe("foo");
 
@@ -257,7 +257,7 @@ describe("Result", () => {
 		});
 
 		test.each([[true], [false]])("isOkAnd = %s", (fnReturn) => {
-			const fn = vi.fn().mockReturnValue(fnReturn);
+			const fn = mock().mockReturnValue(fnReturn);
 			expect(result.isOkAnd(fn)).toBe(fnReturn);
 
 			expect(fn).toHaveBeenCalledTimes(1);
@@ -269,7 +269,7 @@ describe("Result", () => {
 		});
 
 		test.each([[true], [false]])("isOkAnd = %s", (fnReturn) => {
-			const fn = vi.fn().mockReturnValue(fnReturn);
+			const fn = mock().mockReturnValue(fnReturn);
 			expect(result.isErrAnd(fn)).toBe(false);
 
 			expect(fn).toHaveBeenCalledTimes(0);
@@ -284,7 +284,7 @@ describe("Result", () => {
 		});
 
 		test("map", () => {
-			const fn = vi.fn().mockReturnValue("foo");
+			const fn = mock().mockReturnValue("foo");
 			expect(result.map(fn).unwrap()).toBe("foo");
 
 			expect(fn).toHaveBeenCalledTimes(1);
@@ -292,7 +292,7 @@ describe("Result", () => {
 		});
 
 		test("mapOr", () => {
-			const fn = vi.fn().mockReturnValue("foo");
+			const fn = mock().mockReturnValue("foo");
 			expect(result.mapOr("bar", fn)).toBe("foo");
 
 			expect(fn).toHaveBeenCalledTimes(1);
@@ -300,8 +300,8 @@ describe("Result", () => {
 		});
 
 		test("mapOrElse", () => {
-			const getDefaultValue = vi.fn().mockReturnValue("bar");
-			const fn = vi.fn().mockReturnValue("foo");
+			const getDefaultValue = mock().mockReturnValue("bar");
+			const fn = mock().mockReturnValue("foo");
 			expect(result.mapOrElse(getDefaultValue, fn)).toBe("foo");
 
 			expect(fn).toHaveBeenCalledTimes(1);
@@ -311,7 +311,7 @@ describe("Result", () => {
 		});
 
 		test("mapErr", () => {
-			const fn = vi.fn().mockReturnValue("foo");
+			const fn = mock().mockReturnValue("foo");
 			expect(result.mapErr(fn).unwrap()).toBe(value);
 
 			expect(fn).toHaveBeenCalledTimes(0);
@@ -342,7 +342,7 @@ describe("Result", () => {
 		});
 
 		test("unwrapOrElse", () => {
-			const fn = vi.fn().mockReturnValue(54321);
+			const fn = mock().mockReturnValue(54321);
 			expect(result.unwrapOrElse(fn)).toBe(value);
 
 			expect(fn).toHaveBeenCalledTimes(0);
@@ -356,8 +356,8 @@ describe("Result", () => {
 
 		test("andThen", () => {
 			const other = Ok<number[], string>([1, 2, 3]);
-			const fn = vi.fn().mockReturnValue(other);
-			expect(result.andThen(fn)).toBe(other);
+			const fn = mock().mockReturnValue(other);
+			expect(result.andThen(fn) as unknown).toBe(other);
 
 			expect(fn).toHaveBeenCalledTimes(1);
 			expect(fn).toHaveBeenCalledWith(value);
@@ -370,7 +370,7 @@ describe("Result", () => {
 
 		test("orElse", () => {
 			const other = Ok<number, string>(54321);
-			const fn = vi.fn().mockReturnValue(other);
+			const fn = mock().mockReturnValue(other);
 			expect(result.orElse(fn).unwrap()).toBe(value);
 
 			expect(fn).toHaveBeenCalledTimes(0);
@@ -386,7 +386,7 @@ describe("Result", () => {
 		});
 
 		test.each([[true], [false]])("isOkAnd = %s", (fnReturn) => {
-			const fn = vi.fn().mockReturnValue(fnReturn);
+			const fn = mock().mockReturnValue(fnReturn);
 			expect(result.isOkAnd(fn)).toBe(false);
 
 			expect(fn).toHaveBeenCalledTimes(0);
@@ -397,7 +397,7 @@ describe("Result", () => {
 		});
 
 		test.each([[true], [false]])("isOkAnd = %s", (fnReturn) => {
-			const fn = vi.fn().mockReturnValue(fnReturn);
+			const fn = mock().mockReturnValue(fnReturn);
 			expect(result.isErrAnd(fn)).toBe(fnReturn);
 
 			expect(fn).toHaveBeenCalledTimes(1);
@@ -413,22 +413,22 @@ describe("Result", () => {
 		});
 
 		test("map", () => {
-			const fn = vi.fn().mockReturnValue(12345);
+			const fn = mock().mockReturnValue(12345);
 			expect(result.map(fn).unwrapErr()).toBe(err);
 
 			expect(fn).toHaveBeenCalledTimes(0);
 		});
 
 		test("mapOr", () => {
-			const fn = vi.fn().mockReturnValue("foo");
+			const fn = mock().mockReturnValue("foo");
 			expect(result.mapOr("bar", fn)).toBe("bar");
 
 			expect(fn).toHaveBeenCalledTimes(0);
 		});
 
 		test("mapOrElse", () => {
-			const getDefaultValue = vi.fn().mockReturnValue("bar");
-			const fn = vi.fn().mockReturnValue("foo");
+			const getDefaultValue = mock().mockReturnValue("bar");
+			const fn = mock().mockReturnValue("foo");
 			expect(result.mapOrElse(getDefaultValue, fn)).toBe("bar");
 
 			expect(fn).toHaveBeenCalledTimes(0);
@@ -438,7 +438,7 @@ describe("Result", () => {
 		});
 
 		test("mapErr", () => {
-			const fn = vi.fn().mockReturnValue("foo");
+			const fn = mock().mockReturnValue("foo");
 			expect(result.mapErr(fn).unwrapErr()).toBe("foo");
 
 			expect(fn).toHaveBeenCalledTimes(1);
@@ -470,7 +470,7 @@ describe("Result", () => {
 		});
 
 		test("unwrapOrElse", () => {
-			const fn = vi.fn().mockReturnValue(54321);
+			const fn = mock().mockReturnValue(54321);
 			expect(result.unwrapOrElse(fn)).toBe(54321);
 
 			expect(fn).toHaveBeenCalledTimes(1);
@@ -485,7 +485,7 @@ describe("Result", () => {
 
 		test("andThen", () => {
 			const other = Ok<number[], string>([1, 2, 3]);
-			const fn = vi.fn().mockReturnValue(other);
+			const fn = mock().mockReturnValue(other);
 			expect(result.andThen(fn).unwrapErr()).toBe(err);
 
 			expect(fn).toHaveBeenCalledTimes(0);
@@ -498,8 +498,8 @@ describe("Result", () => {
 
 		test("orElse", () => {
 			const other = Ok<number, string>(54321);
-			const fn = vi.fn().mockReturnValue(other);
-			expect(result.orElse(fn)).toBe(other);
+			const fn = mock().mockReturnValue(other);
+			expect(result.orElse(fn) as unknown).toBe(other);
 
 			expect(fn).toHaveBeenCalledTimes(1);
 			expect(fn).toHaveBeenCalledWith(err);

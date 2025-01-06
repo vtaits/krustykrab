@@ -1,4 +1,4 @@
-import { expect, test } from "vitest";
+import { expect, test } from "bun:test";
 import { getResult } from "./get_result";
 import * as lib from "./index";
 import { None, Some } from "./option";

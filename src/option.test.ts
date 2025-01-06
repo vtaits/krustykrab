@@ -1,4 +1,4 @@
-import { expect, test } from "vitest";
+import { expect, test } from "bun:test";
 import * as optionExports from "./option";
 import { None, Some } from "./option_result";
 
