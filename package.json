@@ -14,12 +14,12 @@
     "helpers"
   ],
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.0",
     "@types/gh-pages": "^6.1.0",
     "gh-pages": "^6.3.0",
-    "tsup": "^8.3.5",
-    "typedoc": "^0.27.6",
-    "typescript": "^5.7.2",
+    "tsup": "^8.5.0",
+    "typedoc": "^0.28.5",
+    "typescript": "^5.8.3",
     "@types/bun": "latest"
   },
   "files": [
