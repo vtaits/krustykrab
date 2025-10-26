@@ -8,6 +8,8 @@
       "DOM"
     ],
     "allowJs": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -16,9 +18,10 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
   },
   "include": [
+    "build.ts",
     "src/**/*"
   ],
   "exclude": [
