@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import { toOption } from "./to_option";
+import { unwrap } from "./unwrap.js";
 
-describe("Some", () => {
+describe("success", () => {
 	test.each([
 		[0],
 		[1],
@@ -13,16 +13,14 @@ describe("Some", () => {
 		[""],
 		["foo"],
 	])("%s", (arg) => {
-		const option = toOption(arg);
-
-		expect(option.unwrap()).toBe(arg);
+		expect(unwrap(arg)).toBe(arg);
 	});
 });
 
-describe("None", () => {
+describe("panic", () => {
 	test.each([[null], [undefined]])("%s", (arg) => {
-		const option = toOption(arg);
-
-		expect(option.isNone()).toBe(true);
+		expect(() => {
+			unwrap(arg);
+		}).toThrow();
 	});
 });

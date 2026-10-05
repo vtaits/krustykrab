@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { tryCatch } from "./try_catch";
+import { tryCatch } from "./try_catch.js";
 
 test("success", () => {
 	const result = tryCatch(() => JSON.parse('{"foo": "bar"}'));

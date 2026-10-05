@@ -1,9 +1,15 @@
-import { Err, Ok, type Result } from "./option_result";
+import { Err, Ok } from "./option_result.js";
+
+/**
+ * @import {Result} from "./option_result.js"
+ */
 
 /**
  * Wrap the result of a function call with `Result`
  *
- * @param fn target function
+ * @template R, E
+ * @param {() => R} fn target function
+ * @returns {Result<R, E>}
  *
  * ```ts
  * const successResult = tryCatch(() => JSON.parse('{"foo": "bar"}'));
@@ -13,13 +19,14 @@ import { Err, Ok, type Result } from "./option_result";
  * errorResult.isErr(); // returns `true`
  * ```
  */
-export function tryCatch<R, E>(fn: () => R): Result<R, E> {
-	let result: R;
+export function tryCatch(fn) {
+	/** @type {R} */
+	let result;
 
 	try {
 		result = fn();
 	} catch (e) {
-		return Err(e as E);
+		return Err(/** @type {E} */ (e));
 	}
 
 	return Ok(result);

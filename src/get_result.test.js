@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { getResult } from "./get_result";
+import { getResult } from "./get_result.js";
 
 test("success", async () => {
 	const result = await getResult(Promise.resolve("test"));

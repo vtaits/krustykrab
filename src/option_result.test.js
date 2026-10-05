@@ -1,5 +1,9 @@
 import { describe, expect, mock, test } from "bun:test";
-import { Err, None, Ok, Some } from "./option_result";
+import { Err, None, Ok, Some } from "./option_result.js";
+
+/**
+ * @import {Option, Result} from "./option_result.js"
+ */
 
 describe("Option", () => {
 	describe("Some", () => {
@@ -15,7 +19,7 @@ describe("Option", () => {
 
 		test("andThen", () => {
 			const fn = mock().mockReturnValue(otherOption);
-			expect(option.andThen(fn) as unknown).toBe(otherOption);
+			expect(option.andThen(fn)).toBe(otherOption);
 
 			expect(fn).toHaveBeenCalledTimes(1);
 			expect(fn).toHaveBeenCalledWith(value);
@@ -133,7 +137,8 @@ describe("Option", () => {
 	});
 
 	describe("None", () => {
-		const option = None<number>();
+		/** @type {Option<number>} */
+		const option = None();
 
 		const otherValue = "otherValue";
 		const otherOption = Some(otherValue);
@@ -250,7 +255,10 @@ describe("Option", () => {
 describe("Result", () => {
 	describe("Ok", () => {
 		const value = 12345;
-		const result = Ok<number, string>(value);
+		/** @type {Result<number, string>} */
+		const result = Ok(value);
+
+		result.unwrap();
 
 		test("isOk", () => {
 			expect(result.isOk()).toBe(true);
@@ -349,27 +357,31 @@ describe("Result", () => {
 		});
 
 		test("and", () => {
-			const other = Ok<number[], string>([1, 2, 3]);
+			/** @type {Result<number[], string>} */
+			const other = Ok([1, 2, 3]);
 
 			expect(result.and(other)).toBe(other);
 		});
 
 		test("andThen", () => {
-			const other = Ok<number[], string>([1, 2, 3]);
+			/** @type {Result<number[], string>} */
+			const other = Ok([1, 2, 3]);
 			const fn = mock().mockReturnValue(other);
-			expect(result.andThen(fn) as unknown).toBe(other);
+			expect(result.andThen(fn)).toBe(other);
 
 			expect(fn).toHaveBeenCalledTimes(1);
 			expect(fn).toHaveBeenCalledWith(value);
 		});
 
 		test("or", () => {
-			const other = Ok<number, string>(54321);
+			/** @type {Result<number, string>} */
+			const other = Ok(54321);
 			expect(result.or(other).unwrap()).toBe(value);
 		});
 
 		test("orElse", () => {
-			const other = Ok<number, string>(54321);
+			/** @type {Result<number, string>} */
+			const other = Ok(54321);
 			const fn = mock().mockReturnValue(other);
 			expect(result.orElse(fn).unwrap()).toBe(value);
 
@@ -379,7 +391,8 @@ describe("Result", () => {
 
 	describe("Err", () => {
 		const err = "testError";
-		const result = Err<number, string>(err);
+		/** @type {Result<number, string>} */
+		const result = Err(err);
 
 		test("isOk", () => {
 			expect(result.isOk()).toBe(false);
@@ -478,13 +491,15 @@ describe("Result", () => {
 		});
 
 		test("and", () => {
-			const other = Ok<number[], string>([1, 2, 3]);
+			/** @type {Result<number[], string>} */
+			const other = Ok([1, 2, 3]);
 
 			expect(result.and(other).unwrapErr()).toBe(err);
 		});
 
 		test("andThen", () => {
-			const other = Ok<number[], string>([1, 2, 3]);
+			/** @type {Result<number[], string>} */
+			const other = Ok([1, 2, 3]);
 			const fn = mock().mockReturnValue(other);
 			expect(result.andThen(fn).unwrapErr()).toBe(err);
 
@@ -492,14 +507,16 @@ describe("Result", () => {
 		});
 
 		test("or", () => {
-			const other = Ok<number, string>(54321);
+			/** @type {Result<number, string>} */
+			const other = Ok(54321);
 			expect(result.or(other)).toBe(other);
 		});
 
 		test("orElse", () => {
-			const other = Ok<number, string>(54321);
+			/** @type {Result<number, string>} */
+			const other = Ok(54321);
 			const fn = mock().mockReturnValue(other);
-			expect(result.orElse(fn) as unknown).toBe(other);
+			expect(result.orElse(fn)).toBe(other);
 
 			expect(fn).toHaveBeenCalledTimes(1);
 			expect(fn).toHaveBeenCalledWith(err);

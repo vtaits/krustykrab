@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { unwrapOrElse } from "./unwrap_or_else";
+import { unwrapOr } from "./unwrap_or.js";
 
 describe("return target value", () => {
 	test.each([
@@ -18,7 +18,7 @@ describe("return target value", () => {
 		["", "bar"],
 		["foo", "bar"],
 	])("%s", (target, defaultValue) => {
-		expect(unwrapOrElse(target, () => defaultValue)).toBe(target);
+		expect(unwrapOr(target, defaultValue)).toBe(target);
 	});
 });
 
@@ -27,6 +27,6 @@ describe("return default value", () => {
 		[null, 100],
 		[undefined, "foo"],
 	])("%s", (target, defaultValue) => {
-		expect(unwrapOrElse(target, () => defaultValue)).toBe(defaultValue);
+		expect(unwrapOr(target, defaultValue)).toBe(defaultValue);
 	});
 });

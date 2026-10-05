@@ -1,11 +1,31 @@
 {
-  "type": "module",
   "name": "krustykrab",
   "version": "1.1.0",
-  "description": "Rust utils for JavaScript projects",
-  "repository": "git@github.com:vtaits/krustykrab.git",
   "author": "Vadim Taits <taizvadim@gmail.com>",
-  "license": "MIT",
+  "repository": "git@github.com:vtaits/krustykrab.git",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@types/bun": "latest",
+    "@types/gh-pages": "^6.1.0",
+    "gh-pages": "^6.3.0",
+    "typedoc": "^0.28.20",
+    "typescript": "^7.0.2"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./src/index.js",
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    }
+  },
+  "description": "Rust utils for JavaScript projects",
+  "files": [
+    "src",
+    "!src/**/*.test.js"
+  ],
   "keywords": [
     "rust",
     "std",
@@ -13,41 +33,19 @@
     "utils",
     "helpers"
   ],
-  "devDependencies": {
-    "@biomejs/biome": "^2.3.0",
-    "@types/bun": "latest",
-    "@types/gh-pages": "^6.1.0",
-    "@typescript/native-preview": "^7.0.0-dev.20251026.1",
-    "gh-pages": "^6.3.0",
-    "typedoc": "^0.28.14",
-    "typescript": "^5.9.3"
-  },
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "dist/ts/index.d.ts",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./dist/ts/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    }
-  },
+  "license": "MIT",
   "scripts": {
-    "build": "bun build.ts && tsgo -p tsconfig.build.json",
     "upload:docs": "gh-pages -d docs",
-    "build:docs": "typedoc src/index.ts",
+    "build:docs": "typedoc src/index.js",
     "deploy:docs": "bun run build:docs && bun run upload:docs",
     "lint": "biome check",
     "lint:fix": "biome check --write --unsafe",
     "format": "biome format --write",
-    "test:ts": "tsgo --noEmit",
+    "test:ts": "tsc --noEmit",
     "test:unit": "bun test --coverage",
     "test:unit:watch": "bun test --watch",
-    "test": "bun run lint && bun run test:ts && bun run test:unit",
-    "prepare": "bun run build"
-  }
+    "test": "bun run lint && bun run test:ts && bun run test:unit"
+  },
+  "type": "module",
+  "types": "src/index.js"
 }

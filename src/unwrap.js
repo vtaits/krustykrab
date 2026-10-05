@@ -1,7 +1,8 @@
 /**
  * Panics if the value is `null` or `undefined` or returns it otherwise
- * @param value Target value
- * @returns Unchanged value
+ * @template T
+ * @param {T | null | undefined} value Target value
+ * @returns {T} Unchanged value
  * @throws If the value is `null` or `undefined`
  *
  * ```ts
@@ -9,7 +10,7 @@
  * const foo = unwrap(fooOrUndefined); // exactly html element
  * ```
  */
-export function unwrap<T>(value: T | null | undefined): T {
+export function unwrap(value) {
 	if (value === null || value === undefined) {
 		throw new Error(`panic! call \`unwrap\` on a \`${value}\` value`);
 	}

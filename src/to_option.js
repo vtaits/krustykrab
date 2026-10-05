@@ -1,9 +1,15 @@
-import { None, type Option, Some } from "./option_result";
+import { None, Some } from "./option_result.js";
+
+/**
+ * @import {Option} from "./option_result.js"
+ */
 
 /**
  * Convert a nullable variable to `Option`
- * @param arg nullable variable
- * @returns Option
+ *
+ * @template T
+ * @param {T | null | undefined} arg nullable variable
+ * @returns {Option<T>} Option
  *
  * ```
  * const option = toOption('foo');
@@ -14,10 +20,10 @@ import { None, type Option, Some } from "./option_result";
  * toOption(undefined).isNone(); // returns `true`
  * ```
  */
-export function toOption<T>(arg: T | null | undefined): Option<T> {
+export function toOption(arg) {
 	if (arg === null || arg === undefined) {
 		return None();
 	}
 
-	return Some<T>(arg);
+	return Some(/** @type {T} */ (arg));
 }
