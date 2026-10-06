@@ -20,10 +20,9 @@
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "rootDir": "."
+    "rootDir": "./src"
   },
   "include": [
-    "build.ts",
     "src/**/*"
   ],
   "exclude": [

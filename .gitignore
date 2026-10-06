@@ -10,6 +10,7 @@
 #!.yarn/cache
 .pnp.*
 
+dist
 docs
 coverage
 node_modules

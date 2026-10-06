@@ -16,13 +16,14 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./src/index.js",
+      "types": "./dist/ts/index.d.ts",
       "import": "./src/index.js",
       "default": "./src/index.js"
     }
   },
   "description": "Rust utils for JavaScript projects",
   "files": [
+    "dist",
     "src",
     "!src/**/*.test.js"
   ],
@@ -35,6 +36,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
     "upload:docs": "gh-pages -d docs",
     "build:docs": "typedoc src/index.js",
     "deploy:docs": "bun run build:docs && bun run upload:docs",
@@ -44,8 +46,9 @@
     "test:ts": "tsc --noEmit",
     "test:unit": "bun test --coverage",
     "test:unit:watch": "bun test --watch",
-    "test": "bun run lint && bun run test:ts && bun run test:unit"
+    "test": "bun run lint && bun run test:ts && bun run test:unit",
+    "prepare": "bun run build"
   },
   "type": "module",
-  "types": "src/index.js"
+  "types": "dist/ts/index.d.ts"
 }
