@@ -1,6 +1,6 @@
 {
   "name": "krustykrab",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Vadim Taits <taizvadim@gmail.com>",
   "repository": "git@github.com:vtaits/krustykrab.git",
   "main": "./src/index.js",
